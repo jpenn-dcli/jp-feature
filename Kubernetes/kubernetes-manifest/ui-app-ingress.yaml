@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ui-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    alb.ingress.kubernetes.io/subnets: subnet-0a7d5385e67aeefb7,subnet-0a00fd7e3c4bf56c8
+spec:
+  rules:
+    - host: ui.dcli.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ui-app-service
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ui-app-service
+                port:
+                  number: 443

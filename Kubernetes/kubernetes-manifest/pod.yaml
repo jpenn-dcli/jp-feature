@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ecr-pull-facade-1
+spec:
+  containers:
+  - name: test-container
+    image: 977099017816.dkr.ecr.us-east-2.amazonaws.com/core/demo-project/facade:feature_SN-125_9361ec5
