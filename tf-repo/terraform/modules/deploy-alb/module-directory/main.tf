@@ -11,6 +11,12 @@ data "aws_subnets" "selected" {
   }
 }
 
+# ACM Module to fetch or create the certificate
+module "acm_module" {
+  source = "../modules/acm"
+  # Add any required variables for the ACM module here
+}
+
 # Create the ALB
 resource "aws_lb" "this" {
   name               = var.alb_name
