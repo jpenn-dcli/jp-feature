@@ -47,7 +47,7 @@ resource "aws_lb_listener" "https" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = var.ssl_policy
-  certificate_arn   = var.certificate_arn
+  certificate_arn   = module.acm_module.certificate_arn # reference the output from another module
 
   default_action {
     type = "fixed-response"

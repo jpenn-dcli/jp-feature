@@ -22,3 +22,8 @@ output "https_listener_arn" {
   description = "The ARN of the HTTPS listener"
   value       = aws_lb_listener.https.arn
 }
+
+output "acm_certificate_arn" {
+  description = "The ARN of the ACM certificate used by the ALB"
+  value       = module.acm_module.certificate_arn
+}

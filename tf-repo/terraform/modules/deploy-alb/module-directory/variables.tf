@@ -26,7 +26,10 @@ variable "enable_deletion_protection" {
 variable "tags" {
   description = "A map of tags to assign to the ALB"
   type        = map(string)
-  default     = {}
+  default     = {
+    Environment = "production"
+    Name        = "my-app-alb"
+  }
 }
 
 variable "certificate_arn" {
