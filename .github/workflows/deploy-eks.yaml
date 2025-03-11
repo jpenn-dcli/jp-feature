@@ -19,10 +19,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}  # AWS access key ID from GitHub secrets
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # AWS secret access key from GitHub secrets
-          aws-region: ${{ secrets.AWS_REGION }}  # AWS region from GitHub secrets
           role-to-assume: ${{ secrets.IAM_ROLE_ARN }}  # IAM role ARN from GitHub secrets
+          aws-region: us-east-2  # Explicitly setting AWS region
           role-session-name: GitHubActionsSession  # Session name for the assumed role
           role-duration-seconds: 3600  # Duration of the assumed role session
           audience: sts.amazonaws.com  # Required for OIDC-based authentication
@@ -34,8 +32,10 @@ jobs:
           sudo mv kubectl /usr/local/bin/
 
       - name: Configure kubectl for EKS
+        env:
+          EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
         run: |
-          aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+          aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
 
       - name: Create namespace
         run: kubectl apply -f namespace.yaml
