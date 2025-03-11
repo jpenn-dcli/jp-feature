@@ -21,8 +21,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          aws-region: ${{ secrets.AWS_REGION }}  # Use the region from GitHub secrets
           role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
+          role-session-name: GitHubActionsSession
+          role-duration-seconds: 3600
+          audience: sts.amazonaws.com  # Required for OIDC-based authentication
 
       - name: Install kubectl
         run: |
