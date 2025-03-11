@@ -9,20 +9,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      id-token: write  # Required for OIDC authentication
       contents: read
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials using AWS SSO
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}  # Use the region from GitHub secrets
-          role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}  # AWS region from GitHub secrets
+          role-to-assume: ${{ secrets.IAM_ROLE_ARN }}  # IAM role ARN from GitHub secrets
           role-session-name: GitHubActionsSession
           role-duration-seconds: 3600
           audience: sts.amazonaws.com  # Required for OIDC-based authentication
