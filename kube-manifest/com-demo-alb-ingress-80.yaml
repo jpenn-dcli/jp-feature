@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: git-actions-alb-ingress
+  namespace: git-actions
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - host: apache.snint.dcli.com
+    http:
+      paths:
+      - path: /health
+        pathType: Prefix
+        backend:
+          service:
+            name: apache-service
+            port:
+              number: 80
+  - host: tomcat.snint.dcli.com
+    http:
+      paths:
+      - path: /health
+        pathType: Prefix
+        backend:
+          service:
+            name: tomcat-service
+            port:
+              number: 8080
