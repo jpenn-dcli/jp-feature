@@ -18,7 +18,7 @@ jobs:
         with:
           repository: jpenn-dcli/jp-feature
           ref: main
-          path: kube-manifest
+          path: jpenn-dcli/jp-feature/kube-manifest
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
