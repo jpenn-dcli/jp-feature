@@ -17,13 +17,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: jpenn-dcli/jp-feature
-          ref: fb3128261c4dc06a52bddc4bd762d6f732ab7394
+          ref: main
           path: kube-manifest
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::577638384428:role/EKS_Github_action_iam_role  
+          role-to-assume: arn:aws:iam::577638384428:role/EKS_Github_action_iam_role  # IAM role ARN from GitHub secrets
           aws-region: us-east-2  # Explicitly setting AWS region
           role-session-name: GitHubActionsSession  # Session name for the assumed role
           role-duration-seconds: 3600  # Duration of the assumed role session
@@ -39,15 +39,15 @@ jobs:
         env:
           EKS_CLUSTER_NAME: dcli-sn-eks-cluster
         run: |
-          aws eks update-kubeconfig --name "dcli-sn-eks-cluster" --region "us-east-2"
+          aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
 
       - name: Create namespace
-        run: kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest/namespace.yaml
+        run: kubectl apply -f kube-manifest/namespace.yaml
 
       - name: Deploy application
         run: |
-          kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest/apache-deployment.yaml
-          kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest/apache-service.yaml
-          kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest//tomcat-deployment.yaml
-          kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest//tomcat-service.yaml
-          kubectl apply -f jpenn-dcli/jp-feature/blob/main/kube-manifest//com-demo-alb-ingress-80.yaml
+          kubectl apply -f kube-manifest/apache-deployment.yaml
+          kubectl apply -f kube-manifest/apache-service.yaml
+          kubectl apply -f kube-manifest/tomcat-deployment.yaml
+          kubectl apply -f kube-manifest/tomcat-service.yaml
+          kubectl apply -f kube-manifest/com-demo-alb-ingrss-80.yaml
