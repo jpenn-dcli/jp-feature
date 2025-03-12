@@ -1,0 +1,29 @@
+name: Get OIDC Token
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  get-oidc-token:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required to generate the OIDC token
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get OIDC token
+        id: oidc
+        run: |
+          echo "OIDC Token: ${{ steps.oidc.outputs.token }}"
+          echo "Sub Claim: ${{ steps.oidc.outputs.sub }}"
+
+      - name: Decode the OIDC token
+        run: |
+          TOKEN=${{ steps.oidc.outputs.token }}
+          PAYLOAD=$(echo $TOKEN | cut -d'.' -f2)
+          echo "Decoded Payload: $(echo $PAYLOAD | base64 --decode)"
