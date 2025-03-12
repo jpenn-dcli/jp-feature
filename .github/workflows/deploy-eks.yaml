@@ -15,6 +15,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          repository: jpenn-dcli/jp-feature
+          ref: fb3128261c4dc06a52bddc4bd762d6f732ab7394
+          path: kube-manifest
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -38,10 +42,12 @@ jobs:
           aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
 
       - name: Create namespace
-        run: kubectl apply -f namespace.yaml
+        run: kubectl apply -f kube-manifest/namespace.yaml
 
       - name: Deploy application
         run: |
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-          kubectl apply -f alb-ingress.yaml
+          kubectl apply -f kube-manifest/apache-deployment.yaml
+          kubectl apply -f kube-manifest/apache-service.yaml
+          kubectl apply -f kube-manifest/tomcat-deployment.yaml
+          kubectl apply -f kube-manifest/tomcat-service.yaml
+          kubectl apply -f kube-manifest/com-demo-alb-ingrss-80.yaml
