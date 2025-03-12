@@ -42,11 +42,11 @@ jobs:
           aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
 
       - name: Create namespace
-        run: kubectl apply -f kube-manifest/namespace.yaml
+        run: kubectl apply -f jpenn-dcli/jp-feature/tree/main/kube-manifest/namespace.yaml
 
       - name: Deploy application
         run: |
-          kubectl apply -f kube-manifest/apache-deployment.yaml
+          kubectl apply -f jpenn-dcli/jp-feature/tree/main/kube-manifest/apache-deployment.yaml
           kubectl apply -f kube-manifest/apache-service.yaml
           kubectl apply -f kube-manifest/tomcat-deployment.yaml
           kubectl apply -f kube-manifest/tomcat-service.yaml
