@@ -33,7 +33,7 @@ jobs:
 
       - name: Configure kubectl for EKS
         env:
-          EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
+          EKS_CLUSTER_NAME: dcli-sn-eks-cluster
         run: |
           aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
 
