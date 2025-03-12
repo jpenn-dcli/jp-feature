@@ -15,10 +15,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          repository: jpenn-dcli/jp-feature
-          ref: main
-          path: jpenn-dcli/jp-feature/tree/main/kube-manifest
+
+      - name: Clone Kubernetes Manifests Repo
+        run: |
+          git clone https://github.com/jpenn-dcli/jp-feature.git
+          cd jp-feature/kube-manifest
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -39,15 +40,15 @@ jobs:
         env:
           EKS_CLUSTER_NAME: dcli-sn-eks-cluster
         run: |
-          aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "us-east-2"
+          aws eks update-kubeconfig --name "dcli-sn-eks-cluster" --region "us-east-2"
 
       - name: Create namespace
-        run: kubectl apply -f jpenn-dcli/jp-feature/tree/main/kube-manifest/namespace.yaml
+        run: kubectl apply -f jp-feature/kube-manifest/namespace.yaml
 
       - name: Deploy application
         run: |
-          kubectl apply -f jpenn-dcli/jp-feature/tree/main/kube-manifest/apache-deployment.yaml
-          kubectl apply -f kube-manifest/apache-service.yaml
-          kubectl apply -f kube-manifest/tomcat-deployment.yaml
-          kubectl apply -f kube-manifest/tomcat-service.yaml
-          kubectl apply -f kube-manifest/com-demo-alb-ingrss-80.yaml
+          kubectl apply -f jp-feature/kube-manifest/apache-deployment.yaml
+          kubectl apply -f jp-feature/kube-manifest/apache-service.yaml
+          kubectl apply -f jp-feature/kube-manifest/tomcat-deployment.yaml
+          kubectl apply -f jp-feature/kube-manifest/tomcat-service.yaml
+          kubectl apply -f jp-feature/kube-manifest/com-demo-alb-ingress-80.yaml
