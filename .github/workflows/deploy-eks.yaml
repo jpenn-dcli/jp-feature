@@ -43,12 +43,12 @@ jobs:
           aws eks update-kubeconfig --name "dcli-sn-eks-cluster" --region "us-east-2"
 
       - name: Create namespace
-        run: kubectl apply -f jp-feature/kube-manifest/namespace.yaml
+        run: kubectl apply -f jp-feature/kube-manifest/namespace.yaml --validate=false
 
       - name: Deploy application
         run: |
-          kubectl apply -f jp-feature/kube-manifest/apache-deployment.yaml
-          kubectl apply -f jp-feature/kube-manifest/apache-service.yaml
-          kubectl apply -f jp-feature/kube-manifest/tomcat-deployment.yaml
-          kubectl apply -f jp-feature/kube-manifest/tomcat-service.yaml
-          kubectl apply -f jp-feature/kube-manifest/com-demo-alb-ingress-80.yaml
+          kubectl apply -f jp-feature/kube-manifest/apache-deployment.yaml --validate=false
+          kubectl apply -f jp-feature/kube-manifest/apache-service.yaml --validate=false
+          kubectl apply -f jp-feature/kube-manifest/tomcat-deployment.yaml --validate=false
+          kubectl apply -f jp-feature/kube-manifest/tomcat-service.yaml --validate=false 
+          kubectl apply -f jp-feature/kube-manifest/com-demo-alb-ingress-80.yaml --validate=false
