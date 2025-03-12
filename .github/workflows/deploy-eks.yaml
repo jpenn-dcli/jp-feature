@@ -19,7 +19,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.IAM_ROLE_ARN }}  # IAM role ARN from GitHub secrets
+          role-to-assume: arn:aws:iam::577638384428:role/EKS_Github_action_iam_role  # IAM role ARN from GitHub secrets
           aws-region: us-east-2  # Explicitly setting AWS region
           role-session-name: GitHubActionsSession  # Session name for the assumed role
           role-duration-seconds: 3600  # Duration of the assumed role session
